@@ -24,20 +24,20 @@ def number_guessing_game():
     lucky_number = random.randint(1, 100)
     tries = 5
 
-    for i in range(tries):
+    for i in range(1, tries + 1):
         user_number = int(input("Enter a number between 1 - 100: "))
-        tries -= 1
+        remaining_tries = tries - i
 
         if user_number == lucky_number:
             print(f"Great Job! {user_number} is the lucky number")
             break
         elif user_number > lucky_number:
             print(f"{user_number} is too HIGH. You have {tries} tries remaining.")
-        elif user_number < lucky_number:
+        else:
             print(f"{user_number} is too low. You have {tries} tries remaining.")
 
-            if tries == 0:
-                print("GAME OVER \n")
+            if remaining_tries == 0:
+                print("GAME OVER\n")
                 play_again()
 
 def greetings():
