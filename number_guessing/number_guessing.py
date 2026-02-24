@@ -9,47 +9,56 @@ very much like a “real mini app.”
 '''
 import random
 
-def play_again():
-    print("Would you like to play again?")
-    replay = input("Enter choice(y/n): ")
-    
-    if replay == "n".lower():
-        print("See you again next time")
-        exit()
-    elif replay == "y".lower():
-        print("Great Choice! Enjoy the game \n")
-        number_guessing_game()
+def greetings():
+    username = input("Enter your username: ").strip().lower()
+    print(f"\nWelcome to the number guessing game, {username}.")
+    print("Lets's begin.\n")
 
 def number_guessing_game():
     lucky_number = random.randint(1, 100)
-    tries = 5
+    game_tries = 5
 
-    for i in range(1, tries + 1):
-        user_number = int(input("Enter a number between 1 - 100: "))
-        remaining_tries = tries - i
+    while game_tries > 0:
+        try:
+            user_number = int(input("Enter your lucky number(1 - 100): "))
+        except ValueError:
+            print("Invalid input. Please enter a number.\n")
+            continue
+
+        game_tries -= 1
 
         if user_number == lucky_number:
             print(f"Great Job! {user_number} is the lucky number")
-            break
+            return True
         elif user_number > lucky_number:
-            print(f"{user_number} is too HIGH. You have {tries} tries remaining.")
+            print(f"{user_number} is too HIGH. You have {game_tries} tries remaining.")
         else:
-            print(f"{user_number} is too low. You have {tries} tries remaining.")
+            print(f"{user_number} is too low. You have {game_tries} tries remaining.")
+        
+    print("GAME OVER\n")
+    return False
+        
+def play_again():
+    while True:
+        replay = input("Would you like to play again? (y/n): ").strip().lower()
+        
+        if replay == "y".lower():
+            print("Great choice. Starting a new game. . .\n")
+            return True
+        elif replay == "n".lower():
+            print("See you again next time!")
+            return False
+        else:
+            print("Please enter y or 'n'.\n")
 
-            if remaining_tries == 0:
-                print("GAME OVER\n")
-                play_again()
+def main():
+    greetings()
 
-def greetings():
-    username = input("Enter your userusername: \n").lower()
-    print(f"Welcome to the number guessing game, {username}! \nWould you like to play?")
-    user_choice = input("Enter your choice (y/n): ")
-
-    if user_choice == "y".lower():
-        print("Great choice! Have fun. \n")
+    while True:
         number_guessing_game()
-    elif user_choice == "n".lower():
-        print("Sad to see you go. Come back again. BYE!")
-        exit()
 
-greetings()
+        if not play_again():
+            break
+    
+main()
+
